@@ -6,10 +6,11 @@ class Weather {
   final double temperature;
   final String description;
   final String icon;
-  final String sunrise; // New property
-  final String sunset; // New property
-  final double tempMax; // New property
-  final double tempMin; // New property
+  final String sunrise;
+  final String sunset;
+  final double tempMax;
+  final double tempMin;
+  final String dateTime; // New property
 
   const Weather({
     required this.city,
@@ -20,34 +21,24 @@ class Weather {
     required this.sunset,
     required this.tempMax,
     required this.tempMin,
+    required this.dateTime, // Initialize the new property
   });
 
   factory Weather.fromJson(Map<String, dynamic> json) {
-    // Parse sunrise and sunset timestamps from the 'sys' object
-    final sunriseTimestamp = json['sys']['sunrise'] as int;
-    final sunsetTimestamp = json['sys']['sunset'] as int;
-
-    // Convert timestamps to human-readable time
-    final sunrise = DateTime.fromMillisecondsSinceEpoch(sunriseTimestamp * 1000)
-        .toLocal()
-        .toString()
-        .split(' ')[1]
-        .substring(0, 5); // Extract time in HH:mm format
-    final sunset = DateTime.fromMillisecondsSinceEpoch(sunsetTimestamp * 1000)
-        .toLocal()
-        .toString()
-        .split(' ')[1]
-        .substring(0, 5); // Extract time in HH:mm format
-
     return Weather(
-      city: json['name'],
+      city: json['name'] ?? 'Unknown City',
       temperature: json['main']['temp'].toDouble(),
       description: json['weather'][0]['description'],
       icon: json['weather'][0]['icon'],
-      sunrise: sunrise,
-      sunset: sunset,
+      sunrise: DateTime.fromMillisecondsSinceEpoch(
+        json['sys']['sunrise'] * 1000,
+      ).toLocal().toString().split(' ')[1].substring(0, 5),
+      sunset: DateTime.fromMillisecondsSinceEpoch(
+        json['sys']['sunset'] * 1000,
+      ).toLocal().toString().split(' ')[1].substring(0, 5),
       tempMax: json['main']['temp_max'].toDouble(),
       tempMin: json['main']['temp_min'].toDouble(),
+      dateTime: DateTime.now().toLocal().toString().split('.')[0],
     );
   }
 }

@@ -6,8 +6,15 @@ import 'package:google_fonts/google_fonts.dart';
 import '../cubit/weather_cubit.dart';
 import '../cubit/weather_state.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  final TextEditingController _cityController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -19,14 +26,55 @@ class HomeScreen extends StatelessWidget {
         systemOverlayStyle: const SystemUiOverlayStyle(
           statusBarBrightness: Brightness.dark,
         ),
+        title: Container(
+          height: 40, // Reduced the height of the search bar
+          decoration: BoxDecoration(
+            color: Colors.white24,
+            borderRadius: BorderRadius.circular(8), // Slightly rounded corners
+          ),
+          child: TextField(
+            controller: _cityController,
+            style: GoogleFonts.montserrat(
+              color: Colors.white,
+              fontSize: 14, // Reduced font size
+              fontWeight: FontWeight.w400,
+            ),
+            decoration: InputDecoration(
+              hintText: 'Search city',
+              hintStyle: GoogleFonts.montserrat(
+                color: Colors.white54,
+                fontSize: 14, // Reduced font size for hint text
+                fontWeight: FontWeight.w400,
+              ),
+              border: InputBorder.none,
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 10, // Reduced horizontal padding
+                vertical: 8, // Reduced vertical padding
+              ),
+              suffixIcon: IconButton(
+                icon: const Icon(
+                  Icons.search,
+                  color: Colors.white,
+                  size: 20,
+                ), // Smaller icon
+                onPressed: () {
+                  final city = _cityController.text.trim();
+                  if (city.isNotEmpty) {
+                    context.read<WeatherCubit>().fetchWeather(city);
+                  }
+                },
+              ),
+            ),
+          ),
+        ),
       ),
       body: BlocConsumer<WeatherCubit, WeatherState>(
         listener: (context, state) {
-          // You can show a snackbar or handle errors here
+          // Handle errors
           if (state is WeatherError) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(state.message)),
-            );
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text(state.message)));
           }
         },
         builder: (context, state) {
@@ -66,13 +114,17 @@ class HomeScreen extends StatelessWidget {
                       child: Container(
                         height: 250,
                         width: 600,
-                        decoration: const BoxDecoration(color: Colors.orangeAccent),
+                        decoration: const BoxDecoration(
+                          color: Colors.orangeAccent,
+                        ),
                       ),
                     ),
                     BackdropFilter(
                       filter: ImageFilter.blur(sigmaX: 100.0, sigmaY: 100.0),
                       child: Container(
-                        decoration: const BoxDecoration(color: Colors.transparent),
+                        decoration: const BoxDecoration(
+                          color: Colors.transparent,
+                        ),
                       ),
                     ),
                     SizedBox(
@@ -121,7 +173,8 @@ class HomeScreen extends StatelessWidget {
                           const SizedBox(height: 5),
                           Center(
                             child: Text(
-                              state.dateTime,
+                              state.weather.dateTime ??
+                                  '', // Ensure dateTime is handled
                               style: GoogleFonts.montserrat(
                                 color: Colors.white,
                                 fontSize: 18,
@@ -135,13 +188,11 @@ class HomeScreen extends StatelessWidget {
                             children: [
                               Row(
                                 children: [
-                                  Image.asset(
-                                    'assets/images/11.png',
-                                    scale: 8,
-                                  ),
+                                  Image.asset('assets/images/11.png', scale: 8),
                                   const SizedBox(width: 5),
                                   Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         'Sunrise',
@@ -153,7 +204,7 @@ class HomeScreen extends StatelessWidget {
                                       ),
                                       const SizedBox(height: 3),
                                       Text(
-                                        state.sunrise,
+                                        state.weather.sunrise,
                                         style: GoogleFonts.montserrat(
                                           color: Colors.white,
                                           fontSize: 14,
@@ -166,13 +217,11 @@ class HomeScreen extends StatelessWidget {
                               ),
                               Row(
                                 children: [
-                                  Image.asset(
-                                    'assets/images/12.png',
-                                    scale: 8,
-                                  ),
+                                  Image.asset('assets/images/12.png', scale: 8),
                                   const SizedBox(width: 5),
                                   Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         'Sunset',
@@ -184,7 +233,7 @@ class HomeScreen extends StatelessWidget {
                                       ),
                                       const SizedBox(height: 3),
                                       Text(
-                                        state.sunset,
+                                        state.weather.sunset,
                                         style: GoogleFonts.montserrat(
                                           color: Colors.white,
                                           fontSize: 14,
@@ -205,13 +254,11 @@ class HomeScreen extends StatelessWidget {
                             children: [
                               Row(
                                 children: [
-                                  Image.asset(
-                                    'assets/images/13.png',
-                                    scale: 8,
-                                  ),
+                                  Image.asset('assets/images/13.png', scale: 8),
                                   const SizedBox(width: 5),
                                   Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         'Temp Max',
@@ -223,7 +270,7 @@ class HomeScreen extends StatelessWidget {
                                       ),
                                       const SizedBox(height: 3),
                                       Text(
-                                        '${state.tempMax}°C',
+                                        '${state.weather.tempMax}°C',
                                         style: GoogleFonts.montserrat(
                                           color: Colors.white,
                                           fontSize: 14,
@@ -236,13 +283,11 @@ class HomeScreen extends StatelessWidget {
                               ),
                               Row(
                                 children: [
-                                  Image.asset(
-                                    'assets/images/14.png',
-                                    scale: 8,
-                                  ),
+                                  Image.asset('assets/images/14.png', scale: 8),
                                   const SizedBox(width: 5),
                                   Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         'Temp Min',
@@ -254,7 +299,7 @@ class HomeScreen extends StatelessWidget {
                                       ),
                                       const SizedBox(height: 3),
                                       Text(
-                                        '${state.tempMin}°C',
+                                        '${state.weather.tempMin}°C',
                                         style: GoogleFonts.montserrat(
                                           color: Colors.white,
                                           fontSize: 14,

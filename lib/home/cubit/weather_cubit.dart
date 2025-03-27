@@ -11,10 +11,13 @@ class WeatherCubit extends Cubit<WeatherState> {
   Future<void> fetchWeather(String city) async {
     try {
       emit(WeatherLoading());
+      print("Emitting state: WeatherLoading");
       final weather = await weatherRepository.getWeather(city);
       emit(WeatherLoaded(weather));
+      print("Emitting state: WeatherLoaded with weather: $weather");
     } catch (e) {
       emit(WeatherError(e.toString()));
+      print("Emitting state: WeatherError with error: $e");
     }
   }
 }
