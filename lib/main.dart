@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:overlay_support/overlay_support.dart';
-import 'package:weather_now/home/cubit/ui/home_screen.dart';
-
-
+import 'package:weather_now/home/ui/home_screen.dart';
 
 void main(dynamic dotenv) async {
-  WidgetsFlutterBinding.ensureInitialized();//Make sure flutter is ready before loading
-  runApp(const OverlaySupport(child: MainApp()));//show notifications or alerts over the app
+  await dotenv.load();
+  WidgetsFlutterBinding.ensureInitialized(); //Make sure flutter is ready before loading
+  runApp(
+    const OverlaySupport(child: MainApp()),
+  ); //show notifications or alerts over the app
 }
 
 class MainApp extends StatelessWidget {
@@ -27,8 +28,9 @@ class MainApp extends StatelessWidget {
           ),
           child: MaterialApp(
             title: 'Flutter Demo',
-            debugShowCheckedModeBanner: false,//  make check mode banner dissapear
-            home: HomeScreen()
+            debugShowCheckedModeBanner:
+                false, //  make check mode banner dissapear
+            home: HomeScreen(),
           ),
         );
       },
