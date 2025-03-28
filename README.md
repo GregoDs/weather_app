@@ -16,9 +16,9 @@ Weather Now is a Flutter-based weather application that provides real-time weath
 
 ## Screenshots 📸
 
-| Home Screen | Search Bar |
+| Home Screen | Cities |
 |-------------|------------|
-| ![Home Screen](assets/screenshots/home_screen.png) | ![Search Bar](assets/screenshots/search_bar.png) |
+| ![Home Screen](assets/screenshots/Nairobi.png) | ![Search Bar](assets/screenshots/london_img.png) | ![Search Bar](assets/screenshots/kiambu.png)
 
 ---
 
