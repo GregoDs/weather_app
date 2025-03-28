@@ -149,14 +149,17 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                           const SizedBox(height: 8),
                           Text(
-                            'Good Morning',
+                            state.greeting,
                             style: GoogleFonts.montserrat(
                               color: Colors.white,
                               fontSize: 25,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          Image.asset('assets/images/1.png'),
+                          Image.asset(
+                           state.weatherImage,
+                            
+                          ),
                           Center(
                             child: Text(
                               '${state.weather.temperature}°C',

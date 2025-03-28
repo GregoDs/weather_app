@@ -10,7 +10,9 @@ class WeatherLoading extends WeatherState {}
 
 class WeatherLoaded extends WeatherState {
   final Weather weather;
-  WeatherLoaded(this.weather);
+  final String greeting;
+  final String weatherImage;
+  WeatherLoaded(this.weather, this.greeting, this.weatherImage);
 }
 
 class WeatherError extends WeatherState {
