@@ -9,7 +9,13 @@ import 'package:flutter_dotenv/flutter_dotenv.dart'; // Import the dotenv packag
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // Make sure Flutter is ready before loading
-  //await dotenv.load(fileName: ".env"); // Load environment variables
+  try {
+    await dotenv.load(fileName: ".env");
+    print("✅ .env file loaded successfully!");
+  } catch (e) {
+    print("❌ Error loading .env file: $e");
+  }
+   // Load environment variables
   runApp(
     const OverlaySupport(child: MainApp()),
   ); // Show notifications or alerts over the app

@@ -17,6 +17,13 @@ class _HomeScreenState extends State<HomeScreen> {
   final TextEditingController _cityController = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+    //load last searched city
+    context.read<WeatherCubit>().loadLastCity();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,

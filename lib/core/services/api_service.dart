@@ -10,10 +10,10 @@ class ApiService {
   Future<Map<String, dynamic>> fetchWeather(String city) async {
     try {
       // Use dotenv for API key and base URL if available
-      //final String apiKey = dotenv.env['API_KEY']!;
-      final String apiKey = "b773f63d8f1a3991af27b56808a37e4e"; // Hardcoded API key for now
-      //final String baseUrl = dotenv.env['BASE_URL']!;
-      final String baseUrl = "https://api.openweathermap.org/data/2.5";
+      final String apiKey = dotenv.env['API_KEY']!;
+      //final String apiKey = "b773f63d8f1a3991af27b56808a37e4e"; // Hardcoded API key for now
+      final String baseUrl = dotenv.env['BASE_URL']!;
+      //final String baseUrl = "https://api.openweathermap.org/data/2.5";
 
       // Construct the URL
       final String url = "$baseUrl/weather?q=$city&appid=$apiKey&units=metric";
