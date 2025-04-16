@@ -2,6 +2,9 @@
 
 Weather Now is a Flutter-based weather application that provides real-time weather updates for cities around the world. The app allows users to search for weather information by city name and automatically loads the last searched city's weather when the app is reopened.
 
+Now containerized with **Docker** for consistent builds and portable development environments. 🐳
+
+
 ---
 
 ## Features 🚀
@@ -30,6 +33,31 @@ Follow these steps to set up and run the app on your local machine:
 
 - Flutter SDK: [Install Flutter](https://docs.flutter.dev/get-started/install)
 - OpenWeather API Key: [Get your API key](https://openweathermap.org/api)
+
+
+## Docker Support 🐳
+
+Weather Now supports containerized development using Docker.
+
+### Build the Docker Image
+
+```bash
+docker build -t weather_now .
+```
+
+### Run inside a container
+
+```bash 
+docker run -it --rm weather_now /bin/bash
+```
+Inside the container you can run
+```bash
+flutter --version
+flutter analyze
+flutter test
+flutter build apk --debug
+git status
+```
 
 ### Installation
 
