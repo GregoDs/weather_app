@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:weather_now/home/ui/location_field.dart';
 import '../cubit/weather_cubit.dart';
 import '../cubit/weather_state.dart';
 
@@ -33,47 +34,20 @@ class _HomeScreenState extends State<HomeScreen> {
         systemOverlayStyle: const SystemUiOverlayStyle(
           statusBarBrightness: Brightness.dark,
         ),
-        title: Container(
-          height: 40, // Reduced the height of the search bar
-          decoration: BoxDecoration(
-            color: Colors.white24,
-            borderRadius: BorderRadius.circular(8), // Slightly rounded corners
-          ),
-          child: TextField(
-            controller: _cityController,
-            style: GoogleFonts.montserrat(
-              color: Colors.white,
-              fontSize: 14, // Reduced font size
-              fontWeight: FontWeight.w400,
-            ),
-            decoration: InputDecoration(
-              hintText: 'Search city',
-              hintStyle: GoogleFonts.montserrat(
-                color: Colors.white54,
-                fontSize: 14, // Reduced font size for hint text
-                fontWeight: FontWeight.w400,
-              ),
-              border: InputBorder.none,
-              contentPadding: const EdgeInsets.symmetric(
-                horizontal: 10, // Reduced horizontal padding
-                vertical: 8, // Reduced vertical padding
-              ),
-              suffixIcon: IconButton(
-                icon: const Icon(
-                  Icons.search,
-                  color: Colors.white,
-                  size: 20,
-                ), // Smaller icon
-                onPressed: () {
-                  final city = _cityController.text.trim();
-                  if (city.isNotEmpty) {
-                    context.read<WeatherCubit>().fetchWeather(city);
-                  }
-                },
-              ),
-            ),
-          ),
+         title: Text(
+        'Weather Now',
+        style: GoogleFonts.montserrat(
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
         ),
+      ),
+      bottom: PreferredSize(
+        preferredSize: const Size.fromHeight(60), // Adjust height as needed
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+          child: LocationAutoComplete(), // Add the search bar here
+        ),
+      ),
       ),
       body: BlocConsumer<WeatherCubit, WeatherState>(
         listener: (context, state) {
